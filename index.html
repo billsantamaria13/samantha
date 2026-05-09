@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Cumple de Mia Samantha</title>
+  <meta name="description" content="Invitación interactiva al cumpleaños de Mia Samantha." />
+
+  <style>
+    :root {
+      --pink: #ff8fcf;
+      --pink-dark: #e95aa9;
+      --hot-pink: #ff4fb8;
+      --lavender: #c9a7ff;
+      --purple: #8c61ff;
+      --mint: #9ff3d5;
+      --yellow: #ffe98a;
+      --text: #5d3b62;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 233, 138, .45), transparent 28%),
+        radial-gradient(circle at top right, rgba(159, 243, 213, .48), transparent 30%),
+        linear-gradient(180deg, #fff4fb 0%, #f5e8ff 45%, #e8fff7 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .floating {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .bubble {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: rgba(255, 143, 207, 0.35);
+      border-radius: 999px;
+      animation: floatUp 10s linear infinite;
+      bottom: -40px;
+    }
+
+    .bubble:nth-child(1) {
+      left: 8%;
+      animation-delay: 0s;
+      width: 16px;
+      height: 16px;
+    }
+
+    .bubble:nth-child(2) {
+      left: 22%;
+      animation-delay: 2s;
+      background: rgba(201, 167, 255, .35);
+    }
+
+    .bubble:nth-child(3) {
+      left: 38%;
+      animation-delay: 4s;
+      width: 24px;
+      height: 24px;
+    }
+
+    .bubble:nth-child(4) {
+      left: 62%;
+      animation-delay: 1s;
+      background: rgba(159, 243, 213, .42);
+    }
+
+    .bubble:nth-child(5) {
+      left: 78%;
+      animation-delay: 3s;
+      width: 20px;
+      height: 20px;
+    }
+
+    .bubble:nth-child(6) {
+      left: 90%;
+      animation-delay: 5s;
+      background: rgba(255, 233, 138, .55);
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-110vh) scale(1.6);
+        opacity: 0;
+      }
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 22px;
+    }
+
+    .hero {
+      min-height: 92vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .card {
+      width: min(100%, 760px);
+      background: rgba(255, 255, 255, 0.84);
+      border: 3px solid rgba(255, 143, 207, 0.48);
+      border-radius: 34px;
+      padding: 30px 22px;
+      box-shadow: 0 24px 70px rgba(158, 83, 151, 0.18);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 2px dashed rgba(233, 90, 169, 0.35);
+      border-radius: 26px;
+      pointer-events: none;
+    }
+
+    .top-character {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 8px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+      flex-wrap: nowrap;
+    }
+
+    .top-character img {
+      max-height: 110px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 10px rgba(126, 60, 145, .18));
+    }
+
+    .top-character img:nth-child(1) {
+      max-height: 90px;
+      transform: rotate(-6deg);
+    }
+
+    .top-character img:nth-child(2) {
+      max-height: 118px;
+    }
+
+    .top-character img:nth-child(3) {
+      max-height: 90px;
+      transform: rotate(6deg);
+    }
+
+    .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--yellow), #fff5bd);
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      color: #81514c;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 18px rgba(173, 119, 45, .13);
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: clamp(2.7rem, 11vw, 5.8rem);
+      line-height: 0.95;
+      color: var(--pink-dark);
+      text-shadow: 3px 3px 0 #fff, 6px 6px 0 rgba(201, 167, 255, .45);
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .birthday-photo-wrap {
+      width: min(245px, 68vw);
+      margin: 12px auto 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .birthday-photo-wrap::before {
+      content: "🎀";
+      position: absolute;
+      top: -18px;
+      right: -8px;
+      font-size: 2rem;
+      z-index: 2;
+      filter: drop-shadow(0 4px 6px rgba(126, 60, 145, .2));
+    }
+
+    .birthday-photo {
+      width: 100%;
+      aspect-ratio: 1 / 1.18;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 30px;
+      display: block;
+      border: 7px solid #fff;
+      box-shadow: 0 14px 34px rgba(165, 70, 145, 0.24);
+      background: #fff;
+    }
+
+    .subtitle {
+      font-size: clamp(1.1rem, 4vw, 1.7rem);
+      font-weight: 800;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .date {
+      font-size: clamp(1.05rem, 4vw, 1.55rem);
+      background: #fff;
+      border-radius: 24px;
+      padding: 16px;
+      margin: 18px auto;
+      max-width: 500px;
+      border: 2px solid rgba(201, 167, 255, 0.5);
+      position: relative;
+      z-index: 1;
+      line-height: 1.35;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      max-width: 540px;
+      margin: 20px auto 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .timebox {
+      background: linear-gradient(180deg, #fff, #fff5fb);
+      border: 2px solid rgba(255, 143, 207, .35);
+      border-radius: 20px;
+      padding: 12px 6px;
+      box-shadow: 0 10px 24px rgba(170, 78, 150, .08);
+    }
+
+    .timebox strong {
+      display: block;
+      font-size: clamp(1.2rem, 6vw, 2rem);
+      color: var(--pink-dark);
+    }
+
+    .timebox span {
+      font-size: .82rem;
+      font-weight: 800;
+    }
+
+    .section {
+      margin: 24px 0;
+      background: rgba(255, 255, 255, 0.86);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: 0 18px 45px rgba(158, 83, 151, 0.12);
+      border: 2px solid rgba(255, 255, 255, .8);
+    }
+
+    .section h2 {
+      color: var(--pink-dark);
+      font-size: clamp(1.6rem, 6vw, 2.4rem);
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .detail {
+      background: #fff;
+      border-radius: 22px;
+      padding: 18px 12px;
+      text-align: center;
+      border: 2px solid rgba(201, 167, 255, .38);
+      line-height: 1.35;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 10px 24px rgba(170, 78, 150, .08);
+    }
+
+    .detail .icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .detail strong {
+      color: var(--pink-dark);
+      font-size: 1.05rem;
+    }
+
+    .btns {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 22px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 12px 24px rgba(165, 70, 145, .18);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 16px 30px rgba(165, 70, 145, .22);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--hot-pink), var(--purple));
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--pink-dark);
+      border: 2px solid rgba(255, 143, 207, .5);
+    }
+
+    .map-box {
+      overflow: hidden;
+      border-radius: 24px;
+      border: 3px solid rgba(201, 167, 255, .38);
+      background: #fff;
+      min-height: 280px;
+    }
+
+    .map-box iframe {
+      width: 100%;
+      height: 330px;
+      border: 0;
+      display: block;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 30px 10px 46px;
+      font-weight: 900;
+      color: #87508f;
+    }
+
+    .sparkle {
+      display: inline-block;
+      animation: wiggle 1.8s ease-in-out infinite;
+    }
+
+    @keyframes wiggle {
+      0%, 100% {
+        transform: rotate(-4deg) scale(1);
+      }
+      50% {
+        transform: rotate(5deg) scale(1.08);
+      }
+    }
+
+    @media (max-width: 540px) {
+      .page {
+        padding: 14px;
+      }
+
+      .card {
+        padding: 24px 14px;
+        border-radius: 28px;
+      }
+
+      .top-character {
+        gap: 4px;
+        margin-bottom: 8px;
+      }
+
+      .top-character img {
+        max-height: 74px;
+      }
+
+      .top-character img:nth-child(1) {
+        max-height: 62px;
+      }
+
+      .top-character img:nth-child(2) {
+        max-height: 82px;
+      }
+
+      .top-character img:nth-child(3) {
+        max-height: 62px;
+      }
+
+      .countdown {
+        gap: 7px;
+      }
+
+      .timebox {
+        border-radius: 15px;
+        padding: 10px 4px;
+      }
+
+      .timebox span {
+        font-size: .7rem;
+      }
+
+      .section {
+        padding: 18px;
+        border-radius: 24px;
+      }
+
+      .details {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .detail {
+        min-height: 145px;
+        padding: 14px 8px;
+        font-size: .88rem;
+      }
+
+      .detail .icon {
+        font-size: 1.8rem;
+      }
+
+      .detail strong {
+        font-size: .95rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="floating" aria-hidden="true">
+    <span class="bubble"></span>
+    <span class="bubble"></span>
+    <span class="bubble"></span>
+    <span class="bubble"></span>
+    <span class="bubble"></span>
+    <span class="bubble"></span>
+  </div>
+
+  <main class="page">
+    <section class="hero">
+      <div class="card">
+
+        <div class="top-character">
+          <img src="https://www.dreamworks.com/storage/cms-uploads/pandy-hero2.png" alt="Pandy Paws" />
+          <img src="https://www.dreamworks.com/storage/cms-uploads/gabby-hero2.png" alt="Gabby" />
+          <img src="https://www.dreamworks.com/storage/cms-uploads/cakey-hero2.png" alt="Cakey Cat" />
+        </div>
+
+        <div class="badge">Estás invitado/a a celebrar</div>
+
+        <h1>Mia<br />Samantha</h1>
+
+        <div class="birthday-photo-wrap">
+          <img src="mia-samantha.jpg" alt="Foto de Mia Samantha" class="birthday-photo" />
+        </div>
+
+        <p class="subtitle">¡Una fiesta mágica inspirada en Gabby's Dollhouse!</p>
+
+        <div class="date">
+          <strong>8 de junio de 2026</strong><br />
+          Calle 10 #11-18 Sur<br />
+          Conjunto Puerta del Sol<br />
+          Torre 2 Apto 605 - Mosquera
+        </div>
+
+        <div class="countdown" aria-label="Cuenta regresiva">
+          <div class="timebox">
+            <strong id="days">00</strong>
+            <span>Días</span>
+          </div>
+
+          <div class="timebox">
+            <strong id="hours">00</strong>
+            <span>Horas</span>
+          </div>
+
+          <div class="timebox">
+            <strong id="minutes">00</strong>
+            <span>Min</span>
+          </div>
+
+          <div class="timebox">
+            <strong id="seconds">00</strong>
+            <span>Seg</span>
+          </div>
+        </div>
+
+        <div class="btns">
+          <a class="btn btn-primary" id="whatsappBtn" href="#" target="_blank" rel="noopener">
+            💌 Confirmar por WhatsApp
+          </a>
+
+          <button class="btn btn-secondary" id="musicBtn" type="button">
+            🎵 Activar música
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <h2><span class="sparkle">✨</span> Detalles de la fiesta <span class="sparkle">✨</span></h2>
+
+      <p style="text-align:center; font-size:1.05rem; max-width:680px; margin:0 auto;">
+        Ven a compartir una tarde llena de alegría, juegos, magia y muchos momentos bonitos para Mia Samantha.
+      </p>
+
+      <div class="details">
+        <div class="detail">
+          <span class="icon">📅</span>
+          <strong>Fecha</strong><br />
+          Lunes<br />
+          8 de junio de 2026
+        </div>
+
+        <div class="detail">
+          <span class="icon">📍</span>
+          <strong>Lugar</strong><br />
+          Puerta del Sol<br />
+          Torre 2 Apto 605
+        </div>
+
+        <div class="detail">
+          <span class="icon">🐱</span>
+          <strong>Temática</strong><br />
+          Gabby's<br />
+          Dollhouse
+        </div>
+
+        <div class="detail">
+          <span class="icon">💌</span>
+          <strong>Obsequio</strong><br />
+          Lluvia de<br />
+          sobres
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Confirma tu asistencia</h2>
+
+      <p style="text-align:center; font-size:1.05rem; max-width:650px; margin:0 auto;">
+        Por favor confirma por WhatsApp para guardar tu cupo en esta celebración tan especial.
+      </p>
+
+      <div class="btns">
+        <a class="btn btn-primary" id="whatsappBtn2" href="#" target="_blank" rel="noopener">
+          ✅ Sí, voy a asistir
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Cómo llegar</h2>
+
+      <p style="text-align:center; margin-bottom:14px;">
+        Te esperamos en Calle 10 #11-18 Sur, Conjunto Puerta del Sol, Torre 2 Apto 605, Mosquera.
+      </p>
+
+      <div class="map-box">
+        <iframe
+          title="Mapa del lugar de la fiesta"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Calle%2010%20%2311-18%20Sur%2C%20Conjunto%20Puerta%20del%20Sol%2C%20Torre%202%20Apto%20605%2C%20Mosquera%2C%20Cundinamarca%2C%20Colombia&output=embed">
+        </iframe>
+      </div>
+
+      <div class="btns">
+        <a
+          class="btn btn-secondary"
+          href="https://www.google.com/maps/search/?api=1&query=Calle+10+%2311-18+Sur,+Conjunto+Puerta+del+Sol,+Torre+2+Apto+605,+Mosquera,+Cundinamarca,+Colombia"
+          target="_blank"
+          rel="noopener"
+        >
+          📍 Abrir en Google Maps
+        </a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      Con mucho cariño, te esperamos para celebrar a Mia Samantha 💖
+    </footer>
+  </main>
+
+  <audio id="bgMusic" loop>
+    <source src="musica.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    const WHATSAPP_NUMBER = "573001234567";
+
+    const MESSAGE = "Hola, confirmo mi asistencia al cumpleaños de Mia Samantha el 8 de junio en Mosquera 🎀🐱";
+
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(MESSAGE)}`;
+
+    document.getElementById("whatsappBtn").href = whatsappUrl;
+    document.getElementById("whatsappBtn2").href = whatsappUrl;
+
+    const eventDate = new Date("2026-06-08T15:00:00-05:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = eventDate - now;
+
+      if (distance <= 0) {
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("days").textContent = String(days).padStart(2, "0");
+      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    const music = document.getElementById("bgMusic");
+    const musicBtn = document.getElementById("musicBtn");
+
+    let playing = false;
+
+    musicBtn.addEventListener("click", async () => {
+      try {
+        if (!playing) {
+          await music.play();
+          playing = true;
+          musicBtn.textContent = "🔇 Pausar música";
+        } else {
+          music.pause();
+          playing = false;
+          musicBtn.textContent = "🎵 Activar música";
+        }
+      } catch (error) {
+        alert("Para activar la música, sube un archivo llamado musica.mp3 junto a esta página.");
+      }
+    });
+  </script>
+</body>
+</html>
