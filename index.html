@@ -40,7 +40,45 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-
+    .intro-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background:
+        radial-gradient(circle at top left, rgba(255, 233, 138, .6), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(201, 167, 255, .6), transparent 34%),
+        linear-gradient(180deg, #fff4fb, #f5e8ff);
+      display: grid;
+      place-items: center;
+      padding: 22px;
+    }
+    
+    .intro-card {
+      width: min(100%, 420px);
+      background: rgba(255, 255, 255, .9);
+      border: 3px solid rgba(255, 143, 207, .5);
+      border-radius: 30px;
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: 0 24px 70px rgba(158, 83, 151, .2);
+    }
+    
+    .intro-icon {
+      font-size: 4rem;
+      margin-bottom: 10px;
+    }
+    
+    .intro-card h2 {
+      color: var(--pink-dark);
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    
+    .intro-card p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
     .floating {
       position: fixed;
       inset: 0;
@@ -485,6 +523,18 @@
 </head>
 
 <body>
+
+  <div id="introScreen" class="intro-screen">
+  <div class="intro-card">
+    <div class="intro-icon">🏠🐱🎀</div>
+    <h2>Invitación de Mia Samantha</h2>
+    <p>Prepárate para una fiesta mágica inspirada en Gabby's Dollhouse.</p>
+    <button id="openInvitationBtn" class="btn btn-primary">
+      🎵 Abrir invitación con música
+    </button>
+  </div>
+</div>
+  
   <div class="floating" aria-hidden="true">
     <span class="bubble"></span>
     <span class="bubble"></span>
@@ -644,9 +694,9 @@
     </footer>
   </main>
 
-  <audio id="bgMusic" loop>
-    <source src="musica.mp3" type="audio/mpeg" />
-  </audio>
+<audio id="bgMusic" loop preload="auto">
+  <source src="./musica.mp3" type="audio/mpeg" />
+</audio>
 
   <script>
     const WHATSAPP_NUMBER = "573191798000";
@@ -688,9 +738,26 @@
 
     const music = document.getElementById("bgMusic");
     const musicBtn = document.getElementById("musicBtn");
-
+    const introScreen = document.getElementById("introScreen");
+    const openInvitationBtn = document.getElementById("openInvitationBtn");
+    
     let playing = false;
-
+    
+    async function startMusic() {
+      try {
+        await music.play();
+        playing = true;
+        musicBtn.textContent = "🔇 Pausar música";
+      } catch (error) {
+        musicBtn.textContent = "🎵 Activar música";
+      }
+    }
+    
+    openInvitationBtn.addEventListener("click", async () => {
+      introScreen.style.display = "none";
+      await startMusic();
+    });
+    
     musicBtn.addEventListener("click", async () => {
       try {
         if (!playing) {
@@ -703,7 +770,7 @@
           musicBtn.textContent = "🎵 Activar música";
         }
       } catch (error) {
-        alert("Para activar la música, sube un archivo llamado musica.mp3 junto a esta página.");
+        alert("No pude reproducir la música. Revisa que el archivo se llame musica.mp3 y esté junto al index.html.");
       }
     });
   </script>
